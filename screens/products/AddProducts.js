@@ -12,7 +12,11 @@ export default function AddProducts({ navigation }) {
 
     return (
         <KeyboardAwareScrollView>
-            <AddProductForm toastRef={toastRef} setLoading={setLoading}/>
+            <AddProductForm 
+                toastRef={toastRef} 
+                setLoading={setLoading}
+                navigation={navigation}
+            />
             <Loading isVisible={loading} text="Creando producto."/>
             <Toast ref={toastRef} position="center" opacity={0.9}/>
         </KeyboardAwareScrollView>
