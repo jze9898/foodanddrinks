@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Icon } from 'react-native-elements'
+import firebase from 'firebase/app'
 
 import Loading from '../../components/Loading'
-import { getCurrentUser } from '../../utils/actions'
 
-export default function Products() {
+export default function Products({ navigation }) {
     const [user, setUser] = useState(null)
+    //const correo = "1234@yopmail.com"
 
     useEffect(() => {
-        setUser(getCurrentUser()) 
+        firebase.auth().onAuthStateChanged((userInfo) => {
+            //Habilitar boton xd
+            userInfo ? setUser(true) : setUser(false)
+        })  
     }, [])
 
     if(user === null){
@@ -27,6 +31,7 @@ export default function Products() {
                 color="#721c1c"
                 reverse
                 containerStyle={styles.btnContainer}
+                onPress={() => navigation.navigate("add-products")}
                 />  
                 )
             } 
