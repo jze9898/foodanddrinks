@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Button, Input } from 'react-native-elements'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Button, Icon, Input } from 'react-native-elements'
 import CountryPicker from 'react-native-country-picker-modal'
 import {Picker} from '@react-native-picker/picker'
 
@@ -34,12 +34,29 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
                 errorDescription={errorDescription}
                 errorPrice={errorPrice}
             />
+            <UploadImage/>
             <Button
                 title="Crear Producto"
                 onPress={addProduct}
                 buttonStyle={styles.btnAddProduct}
             />
         </View>
+    )
+}
+
+function UploadImage(){
+    return (
+        <ScrollView
+            horizontal
+            style={styles.viewImage}
+        >
+            <Icon
+                type="material-community"
+                name="camera"
+                color="#7a7a7a"
+                containerStyle={styles.containerIcon}
+            />
+        </ScrollView>
     )
 }
 
@@ -263,5 +280,18 @@ const styles = StyleSheet.create({
         height: 35,
         marginBottom: 10,
         marginLeft: 2
+    },
+    viewImage: {
+        flexDirection: "row",
+        marginHorizontal: 20,
+        marginTop: 30
+    },
+    containerIcon: {
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 10,
+        height: 70,
+        width: 79,
+        backgroundColor: "#e3e3e3"
     }
 })
