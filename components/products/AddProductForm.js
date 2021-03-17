@@ -5,13 +5,35 @@ import CountryPicker from 'react-native-country-picker-modal'
 import {Picker} from '@react-native-picker/picker'
 
 export default function AddProductForm({ toastRef, setLoading, navigation }) {
+    const [formData, setFormData] = useState(defaultFormValues())
+    const [errorNameProduct, setErrorNameProduct] = useState(null)
+    const [errorNameRestaurant, setErrorNameRestaurant] = useState(null)
+    const [errorClass, setErrorClass] = useState(null)
+    const [errorType, setErrorType] = useState(null)
+    const [errorFont, setErrorFont] = useState(null)
+    const [errorAddress, setErrorAddress] = useState(null)
+    const [errorPhone, setErrorPhone] = useState(null)
+    const [errorDescription, setErrorDescription] = useState(null)
+    const [errorPrice, setErrorPricer] = useState(null)
+    const [errorTypeAttention, setErrorTypeAttention] = useState(null)
+
     const addProduct = () => {
+        console.log(formData)
         console.log("ga")
     }
 
     return (
         <View style={styles.viewContainer}>
-            <FormAdd/>
+            <FormAdd
+                formData={formData}
+                setFormData={setFormData}
+                errorNameProduct={errorNameProduct}
+                errorNameRestaurant={errorNameRestaurant}
+                errorAddress={errorAddress}
+                errorPhone={errorPhone}
+                errorDescription={errorDescription}
+                errorPrice={errorPrice}
+            />
             <Button
                 title="Crear Producto"
                 onPress={addProduct}
@@ -21,7 +43,7 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
     )
 }
 
-function FormAdd(){
+function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant, errorAddress, errorPhone, errorDescription, errorPrice }){
     const [country, setCountry] = useState("PE")
     const [callingCode, setCallingCode] = useState("51")
     const [phone, setPhone] = useState("")
@@ -30,24 +52,39 @@ function FormAdd(){
     const [selectedFont, setSelectedFont] = useState("")
     const [selectedAttentionType, setSelectedAttentionType] = useState("")
 
+    const onChange= (e, type) => {
+        setFormData({ ...formData, [type] : e.nativeEvent.text })
+    }
+
     return (
         <View style={styles.viewForm}>
             <Input
                 placeholder="Nombre del producto."
+                defaultValue={formData.nameProduct}
+                onChange={(e) => onChange(e, "nameProduct")}
+                errorMessage={errorNameProduct}
 
             />
             <Input
                 placeholder="Nombre del restaurante."
+                defaultValue={formData.nameRestaurant}
+                onChange={(e) => onChange(e, "nameRestaurant")}
+                errorMessage={errorNameRestaurant}
                 
             />
             <Picker
                 selectedValue={selectedClass}
                 style={styles.pickerClass}
-                onValueChange={(itemValue) =>
-                   setSelectedClass(itemValue) }
+                onValueChange={(itemValue) =>{
+                   setSelectedClass(itemValue)
+                   setFormData({
+                        ...formData, 
+                        "class": itemValue
+                })   
+                }}
             >
-                <Picker.Item label="Comida" value="comida"/>
-                <Picker.Item label="Bebida" value="bebida"/>
+                <Picker.Item label="Comida" value="Comida"/>
+                <Picker.Item label="Bebida" value="Bebida"/>
                 
             </Picker>
             {/* <Input
@@ -57,15 +94,20 @@ function FormAdd(){
             <Picker
                 selectedValue={selectedType}
                 style={styles.pickerClass}
-                onValueChange={(itemValue) =>
-                   setSelectedType(itemValue) }
+                onValueChange={(itemValue) =>{
+                    setSelectedType(itemValue)
+                    setFormData({
+                        ...formData, 
+                        "typeProduct": itemValue 
+                    })    
+            }}
             >
-                <Picker.Item label="Casero" value="casero"/>
-                <Picker.Item label="Restaurante" value="restaurante"/>
-                <Picker.Item label="Quinta" value="quinta"/>
-                <Picker.Item label="Tipica" value="tipica"/>
-                <Picker.Item label="Extravagante" value="extravagante"/>
-                <Picker.Item label="Vegana" value="vegana"/>
+                <Picker.Item label="Casero" value="Casero"/>
+                <Picker.Item label="Restaurante" value="Restaurante"/>
+                <Picker.Item label="Quinta" value="Quinta"/>
+                <Picker.Item label="Tipica" value="Tipica"/>
+                <Picker.Item label="Extravagante" value="Extravagante"/>
+                <Picker.Item label="Vegana" value="Vegana"/>
                 
             </Picker>
             {/* <Input
@@ -75,21 +117,27 @@ function FormAdd(){
             <Picker
                 selectedValue={selectedFont}
                 style={styles.pickerClass}
-                onValueChange={(itemValue) =>
-                   setSelectedFont(itemValue) }
+                onValueChange={(itemValue) =>{
+                    setSelectedFont(itemValue)
+                    setFormData({
+                        ...formData,
+                        "font": itemValue
+                    }) 
+                }
+            }
             >
-                <Picker.Item label="Mariscos" value="mariscos"/>
-                <Picker.Item label="Pescado" value="pescado"/>
-                <Picker.Item label="Carnes" value="carnes"/>
-                <Picker.Item label="Pollo" value="pollo"/>
-                <Picker.Item label="Cerdo" value="cerdo"/>
-                <Picker.Item label="Vegetales" value="vegetales"/>
-                <Picker.Item label="Pavo" value="pavo"/>
-                <Picker.Item label="Bebidas calientes" value="bebidacaliente"/>
-                <Picker.Item label="Bebidas frias" value="bebidasfrias"/>
-                <Picker.Item label="Bebidas alcoholicas" value="bebidasalcoholicas"/>
-                <Picker.Item label="Empanadas" value="empanadas"/>
-                <Picker.Item label="Postres" value="postres"/>
+                <Picker.Item label="Mariscos" value="Mariscos"/>
+                <Picker.Item label="Pescado" value="Pescado"/>
+                <Picker.Item label="Carnes" value="Carnes"/>
+                <Picker.Item label="Pollo" value="Pollo"/>
+                <Picker.Item label="Cerdo" value="Cerdo"/>
+                <Picker.Item label="Vegetales" value="Vegetales"/>
+                <Picker.Item label="Pavo" value="Pavo"/>
+                <Picker.Item label="Bebidas calientes" value="Bebidas calientes"/>
+                <Picker.Item label="Bebidas frias" value="Bebidas frias"/>
+                <Picker.Item label="Bebidas alcoholicas" value="Bebidas alcoholicas"/>
+                <Picker.Item label="Empanadas" value="Empanadas"/>
+                <Picker.Item label="Postres" value="Postres"/>
             </Picker>
             {/* <Input
                 placeholder="Fuente."
@@ -98,6 +146,9 @@ function FormAdd(){
             <Input
                 placeholder="Direccion del restaurante."
                 multiline
+                defaultValue={formData.address}
+                onChange={(e) => onChange(e, "address")}
+                errorMessage={errorAddress}
                 
             />
             <View style={styles.phoneView}>
@@ -109,6 +160,11 @@ function FormAdd(){
                     containerStyle = {styles.countryPicker}
                     countryCode={country}
                     onSelect={(country) => {
+                        setFormData({
+                            ...formData, 
+                            "country": country.cca2, 
+                            "callingCode": country.callingCode[0] 
+                        })
                         setCountry(country.cca2)
                         setCallingCode(country.callingCode[0])
                     }}
@@ -117,17 +173,26 @@ function FormAdd(){
                     placeholder="Numero del restaurante."
                     keyboardType="phone-pad"
                     containerStyle={styles.inputPhone}
+                    defaultValue={formData.phone}
+                    onChange={(e) => onChange(e, "phone")}
+                    errorMessage={errorPhone}
                 />
             </View>
             <Picker
                 selectedValue={selectedAttentionType}
                 style={styles.pickerClass}
-                onValueChange={(itemValue) =>
-                   setSelectedAttentionType(itemValue) }
+                onValueChange={(itemValue) =>{
+                    setSelectedAttentionType(itemValue)
+                    setFormData({
+                        ...formData,
+                        "typeAttention": itemValue
+                    })
+                }
+            }
             >
-                <Picker.Item label="Delivery" value="delivery"/>
-                <Picker.Item label="Consumo en local" value="consumolocal"/>
-                <Picker.Item label="Recojo en local" value="recojolocal"/>
+                <Picker.Item label="Delivery" value="Delivery"/>
+                <Picker.Item label="Consumo en local" value="Consumo en local"/>
+                <Picker.Item label="Recojo en local" value="Recojo en local"/>
             </Picker>
             {/* <Input
                 placeholder="Tipo de atencion."
@@ -137,15 +202,36 @@ function FormAdd(){
                 placeholder="Descripcion del producto."
                 multiline
                 containerStyle={styles.textArea}
+                defaultValue={formData.description}
+                onChange={(e) => onChange(e, "description")}
+                errorMessage={errorDescription}
                 
             />
             <Input
                 placeholder="Precio del producto."
                 keyboardType="phone-pad"
-                
+                defaultValue={formData.price}
+                onChange={(e) => onChange(e, "price")}
+                errorMessage={errorPrice}
             />
         </View>
     )
+}
+const defaultFormValues = () => {
+    return{
+        nameProduct: "",
+        nameRestaurant: "",
+        class: "",
+        typeProduct: "",
+        font: "",
+        address: "",
+        country: "PE",
+        callingCode: "51",
+        phone: "",
+        typeAttention: "",
+        description: "",
+        price: ""
+    }
 }
 
 const styles = StyleSheet.create({
