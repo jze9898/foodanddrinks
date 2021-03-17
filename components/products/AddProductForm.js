@@ -5,6 +5,8 @@ import CountryPicker from 'react-native-country-picker-modal'
 import { Picker } from '@react-native-picker/picker'
 import { map, size } from 'lodash'
 
+import { loadImageFromGallery } from '../../utils/helpers'
+
 export default function AddProductForm({ toastRef, setLoading, navigation }) {
     const [formData, setFormData] = useState(defaultFormValues())
     const [errorNameProduct, setErrorNameProduct] = useState(null)
@@ -50,31 +52,42 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
     )
 }
 
-function UploadImage({ toastRef, imagesSelected, setImagesSelected }){
+function UploadImage({ toastRef, imagesSelected, setImagesSelected }) {
+    const imageSelect = async() => {
+        const response = await loadImageFromGallery([4,3])
+        if (!response.status){
+            toastRef.current.show("No has seleccionado ninguna imagen", 3000)
+            return
+        }
+        setImagesSelected([...imagesSelected, response.image])
+    }
     return (
         <ScrollView
             horizontal
             style={styles.viewImage}
         >
             {
-                size(imagesSelected) < 10 && (
+                size(imagesSelected) < 10 && ( 
                     <Icon
-                        type="material-community"
-                        name="camera"
-                        color="#7a7a7a"
-                        containerStyle={styles.containerIcon}
+                    type="material-community"
+                    name="camera"
+                    color="#7a7a7a"
+                    containerStyle={styles.containerIcon}
+                    onPress={imageSelect}
                     />
                 )
             }
             {
-                map(imagesSelected, (imageProduct, index) => {
+                map(imagesSelected, (imageProduct, index) => (
                     <Avatar
                         key={index}
                         style={styles.miniatureStyle}
-                        source={{ uri: imageProduct }}
+                        source={{uri: imageProduct}}
+
                     />
-                })
+                ))
             }
+
         </ScrollView>
     )
 }
