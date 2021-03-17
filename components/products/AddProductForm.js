@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Avatar, Button, Icon, Input } from 'react-native-elements'
 import CountryPicker from 'react-native-country-picker-modal'
 import { Picker } from '@react-native-picker/picker'
-import { map, size } from 'lodash'
+import { map, size, filter } from 'lodash'
 
 import { loadImageFromGallery } from '../../utils/helpers'
 
@@ -61,6 +61,30 @@ function UploadImage({ toastRef, imagesSelected, setImagesSelected }) {
         }
         setImagesSelected([...imagesSelected, response.image])
     }
+    const removeImage = (image) => {
+        Alert.alert(
+            "Eliminar Imagen",
+            "¿Estas seguro que deseas eliminar la imagen?",
+            [
+                {
+                    text: "No",
+                    style: "cancel"
+                },
+                {
+                    text: "Si",
+                    onPress: () => {
+                        setImagesSelected(
+                            filter(imagesSelected, (imageUrl) => imageUrl !== image)
+                        )
+                    }
+                }
+            ],
+            {
+                cancelable: true
+            }
+        )
+    }
+
     return (
         <ScrollView
             horizontal
@@ -83,6 +107,7 @@ function UploadImage({ toastRef, imagesSelected, setImagesSelected }) {
                         key={index}
                         style={styles.miniatureStyle}
                         source={{uri: imageProduct}}
+                        onPress={() => removeImage(imageProduct)}
 
                     />
                 ))
