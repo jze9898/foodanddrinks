@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { Button, Icon, Input } from 'react-native-elements'
+import { Avatar, Button, Icon, Input } from 'react-native-elements'
 import CountryPicker from 'react-native-country-picker-modal'
-import {Picker} from '@react-native-picker/picker'
+import { Picker } from '@react-native-picker/picker'
+import { map, size } from 'lodash'
 
 export default function AddProductForm({ toastRef, setLoading, navigation }) {
     const [formData, setFormData] = useState(defaultFormValues())
@@ -16,6 +17,7 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
     const [errorDescription, setErrorDescription] = useState(null)
     const [errorPrice, setErrorPricer] = useState(null)
     const [errorTypeAttention, setErrorTypeAttention] = useState(null)
+    const [imagesSelected, setImagesSelected] = useState([])
 
     const addProduct = () => {
         console.log(formData)
@@ -34,7 +36,11 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
                 errorDescription={errorDescription}
                 errorPrice={errorPrice}
             />
-            <UploadImage/>
+            <UploadImage
+                toastRef={toastRef}
+                imagesSelected={imagesSelected}
+                setImagesSelected={setImagesSelected}
+            />
             <Button
                 title="Crear Producto"
                 onPress={addProduct}
@@ -44,18 +50,31 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
     )
 }
 
-function UploadImage(){
+function UploadImage({ toastRef, imagesSelected, setImagesSelected }){
     return (
         <ScrollView
             horizontal
             style={styles.viewImage}
         >
-            <Icon
-                type="material-community"
-                name="camera"
-                color="#7a7a7a"
-                containerStyle={styles.containerIcon}
-            />
+            {
+                size(imagesSelected) < 10 && (
+                    <Icon
+                        type="material-community"
+                        name="camera"
+                        color="#7a7a7a"
+                        containerStyle={styles.containerIcon}
+                    />
+                )
+            }
+            {
+                map(imagesSelected, (imageProduct, index) => {
+                    <Avatar
+                        key={index}
+                        style={styles.miniatureStyle}
+                        source={{ uri: imageProduct }}
+                    />
+                })
+            }
         </ScrollView>
     )
 }
@@ -291,7 +310,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginRight: 10,
         height: 70,
-        width: 79,
+        width: 70,
         backgroundColor: "#e3e3e3"
+    },
+    miniatureStyle: {
+        width: 70,
+        height: 70,
+        marginRight: 10
     }
 })
