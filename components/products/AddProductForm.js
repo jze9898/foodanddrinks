@@ -81,6 +81,7 @@ function UploadImage({ toastRef, imagesSelected, setImagesSelected }) {
             ],
             {
                 cancelable: true
+                //canelable
             }
         )
     }
