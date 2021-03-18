@@ -5,9 +5,11 @@ import CountryPicker from 'react-native-country-picker-modal'
 import { Picker } from '@react-native-picker/picker'
 import { map, size, filter, isEmpty } from 'lodash'
 import MapView from 'react-native-maps'
+import uuid from 'random-uuid-v4'
 
 import { getCurrentLocation, loadImageFromGallery } from '../../utils/helpers'
 import Modal from '../../components/Modal'
+import { uploadImage } from '../../utils/actions'
 
 const widthScreen = Dimensions.get("window").width
 
@@ -27,11 +29,29 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
     const [isVisibleMap, setIsVisibleMap] = useState(false)
     const [locationRestaurant, setLocationRestaurant] = useState(null)
 
-    const addProduct = () => {
+    const addProduct = async() => {
         if(!validForm()){
             return
         }
-        console.log("ga")
+        setLoading(true)
+        const response = await uploadImages()
+        console.log(response)
+        setLoading(false)
+
+        console.log("VAMOOOOOOOOOS UG")
+    }
+
+    const uploadImages = async() => {
+        const imagesUrl = []
+        await Promise.all(
+            map(imagesSelected, async(image) => {
+                const response = await uploadImage(image, "products", uuid())
+                if(response.statusResponse){
+                    imagesUrl.push(response.url)
+                }
+            })
+        )
+        return imagesUrl
     }
 
     const validForm = () => {
