@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Alert, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Avatar, Button, Icon, Input, Image } from 'react-native-elements'
 import CountryPicker from 'react-native-country-picker-modal'
 import { Picker } from '@react-native-picker/picker'
 import { map, size, filter } from 'lodash'
+import MapView from 'react-native-maps'
 
-import { loadImageFromGallery } from '../../utils/helpers'
+import { getCurrentLocation, loadImageFromGallery } from '../../utils/helpers'
+import Modal from '../../components/Modal'
 
 const widthScreen = Dimensions.get("window").width
 
@@ -22,6 +24,8 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
     const [errorPrice, setErrorPricer] = useState(null)
     const [errorTypeAttention, setErrorTypeAttention] = useState(null)
     const [imagesSelected, setImagesSelected] = useState([])
+    const [isVisibleMap, setIsVisibleMap] = useState(false)
+    const [locationRestaurant, setLocationRestaurant] = useState(null)
 
     const addProduct = () => {
         console.log(formData)
@@ -42,6 +46,7 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
                 errorPhone={errorPhone}
                 errorDescription={errorDescription}
                 errorPrice={errorPrice}
+                setIsVisibleMap={setIsVisibleMap}
             />
             <UploadImage
                 toastRef={toastRef}
@@ -53,7 +58,61 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
                 onPress={addProduct}
                 buttonStyle={styles.btnAddProduct}
             />
+            <MapRestaurant
+                isVisibleMap={isVisibleMap}
+                setIsVisibleMap={setIsVisibleMap}
+                locationRestaurant={locationRestaurant}
+                setLocationRestaurant={setLocationRestaurant}
+                toastRef={toastRef}
+            />
         </ScrollView>
+    )
+}
+
+function MapRestaurant({ isVisibleMap, setIsVisibleMap, locationRestaurant, setLocationRestaurant, toastRef }) {
+    useEffect(() => {
+        (async() => {
+            const response = await getCurrentLocation()
+            if(response.status) {
+                setLocationRestaurant(response.location)
+                console.log(response.location)
+            }
+        })()
+    }, [])
+    return (
+        <Modal isVisible={isVisibleMap} setIsVisible={setIsVisibleMap}>
+            <View>
+                {
+                    locationRestaurant && (
+                        <MapView
+                            style={styles.mapStyle}
+                            initialRegion={locationRestaurant}
+                            showsUserLocation
+                        >
+                            <MapView.Marker
+                                coordinate={{
+                                    latitude: locationRestaurant.latitude,
+                                    longitude: locationRestaurant.longitude
+                                }}
+                                draggable
+                            />
+                        </MapView>
+                    )
+                }
+                <View style={styles.viewMapBtn}>
+                    <Button
+                        title="Guardar Ubicacion"
+                        containerStyle={styles.viewMapBtnContainerSave}
+                        buttonStyle={styles.viewMapBtnSave}
+                    />
+                    <Button
+                        title="Cancelar Ubicacion"
+                        containerStyle={styles.viewMapBtnContainerCancel}
+                        buttonStyle={styles.viewMapBtnCancel}
+                    />
+                </View>
+            </View>
+        </Modal>
     )
 }
 
@@ -138,7 +197,7 @@ function UploadImage({ toastRef, imagesSelected, setImagesSelected }) {
     )
 }
 
-function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant, errorAddress, errorPhone, errorDescription, errorPrice }){
+function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant, errorAddress, errorPhone, errorDescription, errorPrice, setIsVisibleMap }){
     const [country, setCountry] = useState("PE")
     const [callingCode, setCallingCode] = useState("51")
     const [phone, setPhone] = useState("")
@@ -244,6 +303,12 @@ function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant,
                 defaultValue={formData.address}
                 onChange={(e) => onChange(e, "address")}
                 errorMessage={errorAddress}
+                rightIcon={{
+                    type: "material-community",
+                    name: "google-maps",
+                    color: "#c2c2c2",
+                    onPress: () => setIsVisibleMap(true)           }
+                }
                 
             />
             <View style={styles.phoneView}>
@@ -312,6 +377,7 @@ function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant,
         </View>
     )
 }
+
 const defaultFormValues = () => {
     return{
         nameProduct: "",
@@ -381,5 +447,26 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: 200,
         marginBottom: 20
+    },
+    mapStyle: {
+        width: "100%",
+        height: 550
+    },
+    viewMapBtn: {
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: 10
+    },
+    viewMapBtnContainerSave: {
+        paddingRight: 5
+    },
+    viewMapBtnContainerCancel: {
+        paddingLeft: 5
+    },
+    viewMapBtnSave: {
+        backgroundColor: "#442484"
+    }, 
+    viewMapBtnCancel: {
+        backgroundColor: "#721c1c"
     }
 })
