@@ -47,6 +47,7 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
                 errorDescription={errorDescription}
                 errorPrice={errorPrice}
                 setIsVisibleMap={setIsVisibleMap}
+                locationRestaurant={locationRestaurant}
             />
             <UploadImage
                 toastRef={toastRef}
@@ -70,29 +71,38 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
 }
 
 function MapRestaurant({ isVisibleMap, setIsVisibleMap, locationRestaurant, setLocationRestaurant, toastRef }) {
+    const [newRegion, setNewRegion] = useState(null)
+
     useEffect(() => {
         (async() => {
             const response = await getCurrentLocation()
             if(response.status) {
-                setLocationRestaurant(response.location)
-                console.log(response.location)
+                setNewRegion(response.location)
             }
         })()
     }, [])
+
+    const confirmLocation = () => {
+        setLocationRestaurant(newRegion)
+        toastRef.current.show("Localizacion guardada correctamente.", 3000)
+        setIsVisibleMap(false)
+    }
+    
     return (
         <Modal isVisible={isVisibleMap} setIsVisible={setIsVisibleMap}>
             <View>
                 {
-                    locationRestaurant && (
+                    newRegion && (
                         <MapView
                             style={styles.mapStyle}
-                            initialRegion={locationRestaurant}
-                            showsUserLocation
+                            initialRegion={newRegion}
+                            showsUserLocation={true}
+                            onRegionChange={(region) => setNewRegion(region)}
                         >
                             <MapView.Marker
                                 coordinate={{
-                                    latitude: locationRestaurant.latitude,
-                                    longitude: locationRestaurant.longitude
+                                    latitude: newRegion.latitude,
+                                    longitude: newRegion.longitude
                                 }}
                                 draggable
                             />
@@ -104,11 +114,13 @@ function MapRestaurant({ isVisibleMap, setIsVisibleMap, locationRestaurant, setL
                         title="Guardar Ubicacion"
                         containerStyle={styles.viewMapBtnContainerSave}
                         buttonStyle={styles.viewMapBtnSave}
+                        onPress={confirmLocation}
                     />
                     <Button
                         title="Cancelar Ubicacion"
                         containerStyle={styles.viewMapBtnContainerCancel}
                         buttonStyle={styles.viewMapBtnCancel}
+                        onPress={() => setIsVisibleMap(false)}
                     />
                 </View>
             </View>
@@ -197,7 +209,7 @@ function UploadImage({ toastRef, imagesSelected, setImagesSelected }) {
     )
 }
 
-function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant, errorAddress, errorPhone, errorDescription, errorPrice, setIsVisibleMap }){
+function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant, errorAddress, errorPhone, errorDescription, errorPrice, setIsVisibleMap, locationRestaurant }){
     const [country, setCountry] = useState("PE")
     const [callingCode, setCallingCode] = useState("51")
     const [phone, setPhone] = useState("")
@@ -299,14 +311,13 @@ function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant,
             /> */}
             <Input
                 placeholder="Direccion del restaurante."
-                multiline
                 defaultValue={formData.address}
                 onChange={(e) => onChange(e, "address")}
                 errorMessage={errorAddress}
                 rightIcon={{
                     type: "material-community",
                     name: "google-maps",
-                    color: "#c2c2c2",
+                    color: locationRestaurant ? "#721c1c" : "#c2c2c2",
                     onPress: () => setIsVisibleMap(true)           }
                 }
                 
