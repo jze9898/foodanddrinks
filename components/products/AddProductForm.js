@@ -6,10 +6,10 @@ import { Picker } from '@react-native-picker/picker'
 import { map, size, filter, isEmpty } from 'lodash'
 import MapView from 'react-native-maps'
 import uuid from 'random-uuid-v4'
+import Modal from '../../components/Modal'
 
 import { getCurrentLocation, loadImageFromGallery } from '../../utils/helpers'
-import Modal from '../../components/Modal'
-import { uploadImage } from '../../utils/actions'
+import { addDocumentWithoutId, getCurrentUser, uploadImage } from '../../utils/actions'
 
 const widthScreen = Dimensions.get("window").width
 
@@ -34,11 +34,37 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
             return
         }
         setLoading(true)
-        const response = await uploadImages()
-        console.log(response)
+        const responseUploadImages = await uploadImages()
+        const product = {
+            nameProduct: formData.nameProduct,
+            nameRestaurant: formData.nameRestaurant,
+            class: formData.class,
+            typeProduct: formData.typeProduct,
+            font: formData.font,
+            address: formData.address,
+            location: locationRestaurant,
+            country: formData.country,
+            callingCode: formData.callingCode,
+            phone: formData.phone,
+            typeAttention: formData.typeAttention,
+            description: formData.description,
+            price: formData.price,
+            images: responseUploadImages,
+            rating: 0,
+            ratingTotal: 0,
+            quantityVoting: 0,
+            createAt: new Date(),
+            createBy: getCurrentUser().uid
+        }
+        const responseAddDocument = await addDocumentWithoutId("products", product)
         setLoading(false)
 
-        console.log("VAMOOOOOOOOOS UG")
+        if(!responseAddDocument.statusResponse){
+            toastRef.current.show("Error al grabar el producto/restaurante, por favor intenta mas tarde.", 3000)
+            return
+        }
+
+        navigation.navigate("products")
     }
 
     const uploadImages = async() => {
