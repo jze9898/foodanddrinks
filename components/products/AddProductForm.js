@@ -3,7 +3,7 @@ import { Alert, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-nat
 import { Avatar, Button, Icon, Input, Image } from 'react-native-elements'
 import CountryPicker from 'react-native-country-picker-modal'
 import { Picker } from '@react-native-picker/picker'
-import { map, size, filter } from 'lodash'
+import { map, size, filter, isEmpty } from 'lodash'
 import MapView from 'react-native-maps'
 
 import { getCurrentLocation, loadImageFromGallery } from '../../utils/helpers'
@@ -21,15 +21,70 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
     const [errorAddress, setErrorAddress] = useState(null)
     const [errorPhone, setErrorPhone] = useState(null)
     const [errorDescription, setErrorDescription] = useState(null)
-    const [errorPrice, setErrorPricer] = useState(null)
+    const [errorPrice, setErrorPrice] = useState(null)
     const [errorTypeAttention, setErrorTypeAttention] = useState(null)
     const [imagesSelected, setImagesSelected] = useState([])
     const [isVisibleMap, setIsVisibleMap] = useState(false)
     const [locationRestaurant, setLocationRestaurant] = useState(null)
 
     const addProduct = () => {
-        console.log(formData)
+        if(!validForm()){
+            return
+        }
         console.log("ga")
+    }
+
+    const validForm = () => {
+        clearErrors()
+        let isValid = true
+
+        if(isEmpty(formData.nameProduct)){
+            setErrorNameProduct("Debes ingresar el nombre del producto.")
+            isValid = false
+        }
+
+        if(isEmpty(formData.nameRestaurant)){
+            setErrorNameRestaurant("Debes ingresar el nombre del restaurante.")
+            isValid = false
+        }
+
+        if(isEmpty(formData.address)){
+            setErrorAddress("Debes ingresar la direccion del restaurante.")
+            isValid = false
+        }
+
+        if(size(formData.phone) < 9){
+            setErrorPhone("Debes ingresar el telefono del restaurante.")
+            isValid = false
+        }
+
+        if(isEmpty(formData.description)){
+            setErrorDescription("Debes ingresar la descripcion del restaurante/producto.")
+            isValid = false
+        }
+
+        if(isEmpty(formData.price)){
+            setErrorPrice("Debes ingresar el precio del producto.")
+            isValid = false
+        }
+
+        if(!locationRestaurant){
+            toastRef.current.show("Debes de localizar el restaurante en el mapa.", 3000)
+        } else if(size(imagesSelected) === 0) {
+            toastRef.current.show("Debes de agregar al menos una imagen para el restaurante/producto.", 3000)
+            isValid = false
+        }
+
+        return isValid
+    }
+
+    const clearErrors = () => {
+        setErrorDescription(null)
+        setErrorNameProduct(null)
+        setErrorNameRestaurant(null)
+        setErrorPhone(null)
+        setErrorAddress(null)
+        setErrorPrice(null)
     }
 
     return (
@@ -70,7 +125,7 @@ export default function AddProductForm({ toastRef, setLoading, navigation }) {
     )
 }
 
-function MapRestaurant({ isVisibleMap, setIsVisibleMap, locationRestaurant, setLocationRestaurant, toastRef }) {
+function MapRestaurant({ isVisibleMap, setIsVisibleMap, setLocationRestaurant, toastRef }) {
     const [newRegion, setNewRegion] = useState(null)
 
     useEffect(() => {
