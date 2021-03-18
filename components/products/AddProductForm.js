@@ -350,6 +350,7 @@ function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant,
                 })   
                 }}
             >
+                <Picker.Item label="Seleccione una opcion." value="option"/>
                 <Picker.Item label="Comida" value="Comida"/>
                 <Picker.Item label="Bebida" value="Bebida"/>
                 
@@ -369,6 +370,7 @@ function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant,
                     })    
             }}
             >
+                <Picker.Item label="Seleccione una opcion." value="option"/>
                 <Picker.Item label="Casero" value="Casero"/>
                 <Picker.Item label="Restaurante" value="Restaurante"/>
                 <Picker.Item label="Quinta" value="Quinta"/>
@@ -393,6 +395,7 @@ function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant,
                 }
             }
             >
+                <Picker.Item label="Seleccione una opcion." value="option"/>
                 <Picker.Item label="Mariscos" value="Mariscos"/>
                 <Picker.Item label="Pescado" value="Pescado"/>
                 <Picker.Item label="Carnes" value="Carnes"/>
@@ -400,6 +403,7 @@ function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant,
                 <Picker.Item label="Cerdo" value="Cerdo"/>
                 <Picker.Item label="Vegetales" value="Vegetales"/>
                 <Picker.Item label="Pavo" value="Pavo"/>
+                <Picker.Item label="Sopas" value="Sopas"/>
                 <Picker.Item label="Bebidas calientes" value="Bebidas calientes"/>
                 <Picker.Item label="Bebidas frias" value="Bebidas frias"/>
                 <Picker.Item label="Bebidas alcoholicas" value="Bebidas alcoholicas"/>
@@ -462,6 +466,7 @@ function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant,
                 }
             }
             >
+                <Picker.Item label="Seleccione una opcion." value="option"/>
                 <Picker.Item label="Delivery" value="Delivery"/>
                 <Picker.Item label="Consumo en local" value="Consumo en local"/>
                 <Picker.Item label="Recojo en local" value="Recojo en local"/>
