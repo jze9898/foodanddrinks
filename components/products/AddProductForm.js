@@ -403,6 +403,8 @@ function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant,
                 <Picker.Item label="Cerdo" value="Cerdo"/>
                 <Picker.Item label="Vegetales" value="Vegetales"/>
                 <Picker.Item label="Pavo" value="Pavo"/>
+                <Picker.Item label="Buffet" value="Buffet"/>
+                <Picker.Item label="Pizza" value="Pizza"/>
                 <Picker.Item label="Sopas" value="Sopas"/>
                 <Picker.Item label="Bebidas calientes" value="Bebidas calientes"/>
                 <Picker.Item label="Bebidas frias" value="Bebidas frias"/>
