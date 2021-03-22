@@ -3,9 +3,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { useFocusEffect } from '@react-navigation/native'
 import firebase from 'firebase/app'
+import { size } from 'lodash'
 
 import Loading from '../../components/Loading'
 import { getProducts } from '../../utils/actions'
+import ListProducts from '../../components/products/ListProducts'
 
 export default function Products({ navigation }) {
     const [user, setUser] = useState(null)
@@ -43,7 +45,18 @@ export default function Products({ navigation }) {
 
     return (
         <View style={styles.view}>
-            <Text>Products</Text>
+            {
+                size(products) > 0 ? (
+                    <ListProducts
+                        products={products}
+                        navigation={navigation}
+                    />
+                ): (
+                    <View style={styles.notFoundView}>
+                        <Text style={styles.notFoundText}>No hay productos registrados.</Text>
+                    </View>
+                )
+            }
             {
                 user && (
                 <Icon
@@ -72,5 +85,14 @@ const styles = StyleSheet.create({
         shadowColor: "black",
         shadowOffset: {width: 2, height: 2},
         shadowOpacity: 0.5
+    },
+    notFoundView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    }, 
+    notFoundText: {
+        fontSize: 18,
+        fontWeight: "bold"
     }
 })
