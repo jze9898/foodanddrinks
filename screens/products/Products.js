@@ -16,7 +16,7 @@ export default function Products({ navigation }) {
     const [loading, setLoading] = useState(false)
     //const correo = "1234@yopmail.com"
 
-    const limitProducts = 7
+    const limitProducts = 6
     console.log("products", products)
 
     useEffect(() => {

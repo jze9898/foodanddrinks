@@ -34,7 +34,7 @@ function Product({ product, navigation, handleLoadMore }){
                         style={styles.imageRestaurant}
                 />
                 </View>
-                <View>
+                <View style={styles.viewText}>
                     <Text style={styles.productName}>{nameProduct}</Text>
                     <Text style={styles.restaurantInformation}>{nameRestaurant}</Text>
                     <Text style={styles.restaurantInformation}>{address}</Text>
@@ -59,6 +59,9 @@ const styles = StyleSheet.create({
     },
     viewProductImage: {
         marginRight: 15
+    },
+    viewText: {
+        flex: 1
     },
     imageRestaurant: {
         width: 90,
