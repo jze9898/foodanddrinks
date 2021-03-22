@@ -119,11 +119,39 @@ export const addDocumentWithoutId = async(collection, data) => {
 }
 
 export const getProducts = async(limitProducts) => {
+    const result = { statusResponse: true, error: null, products: [], startProduct: null }
+    try {
+        const response = await db
+            .collection("products")
+            .orderBy("createAt", "desc")
+            .limit(limitProducts)
+            .get()
+        if (response.docs.length > 0){
+            result.startProduct = response.docs[response.docs.length - 1]
+        }
+        response.forEach((doc) => {
+            const product = doc.data()
+            product.id = doc.id
+            result.products.push(product)
+        })
+    } catch (error) {
+        result.statusResponse = false
+        result.error = error
+    }
+    return result     
+}
+
+export const getMoreProducts = async(limitProducts, startProduct) => {
     const result = { statusResponse: true, error: null, products: [], startProducts: null }
     try {
-        const response = await db.collection("products").orderBy("createAt", "desc").limit(limitProducts).get()
+        const response = await db
+            .collection("products")
+            .orderBy("createAt", "desc")
+            .startAfter(startProduct.data().createAt)
+            .limit(limitProducts)
+            .get()
         if (response.docs.length > 0){
-            result.startProducts = response.docs[response.docs.length - 1]
+            result.startProduct = response.docs[response.docs.length - 1]
         }
         response.forEach((doc) => {
             const product = doc.data()

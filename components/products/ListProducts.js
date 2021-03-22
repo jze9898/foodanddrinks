@@ -3,12 +3,14 @@ import React from 'react'
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Image } from 'react-native-elements'
 
-export default function ListProducts({ products, navigation }) {
+export default function ListProducts({ products, navigation, handleLoadMore }) {
     return (
         <View>
             <FlatList
                 data={products}
                 keyExtractor={(item, index) => index.toString() }
+                onEndReachedThreshold={0.5}
+                onEndReached={handleLoadMore}
                 renderItem={(product) => (
                     <Product product={product} navigation={navigation}/>
                 )}
@@ -17,7 +19,7 @@ export default function ListProducts({ products, navigation }) {
     )
 }
 
-function Product({ product, navigation }){
+function Product({ product, navigation, handleLoadMore }){
     const { id, images, nameProduct, nameRestaurant, address, price } = product.item
     const imageRestaurant = images[0]
 

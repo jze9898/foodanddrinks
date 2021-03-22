@@ -6,7 +6,7 @@ import firebase from 'firebase/app'
 import { size } from 'lodash'
 
 import Loading from '../../components/Loading'
-import { getProducts } from '../../utils/actions'
+import { getMoreProducts, getProducts } from '../../utils/actions'
 import ListProducts from '../../components/products/ListProducts'
 
 export default function Products({ navigation }) {
@@ -39,6 +39,20 @@ export default function Products({ navigation }) {
         )
     )
 
+    const handleLoadMore = async() => {
+        if (!startProduct){
+            return
+        }
+
+        setLoading(true)
+        const response = await getMoreProducts(limitProducts, startProduct)
+                if (response.statusResponse) {
+                    setStartProduct(response.startProduct)
+                    setProducts([...products, ...response.products])
+                }
+        setLoading(false)
+    }
+
     if(user === null){
         return <Loading isVisible={true} text="Cargando..."/>
     }
@@ -50,6 +64,7 @@ export default function Products({ navigation }) {
                     <ListProducts
                         products={products}
                         navigation={navigation}
+                        handleLoadMore ={handleLoadMore}
                     />
                 ): (
                     <View style={styles.notFoundView}>
