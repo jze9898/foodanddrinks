@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Alert, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, Alert, Dimensions, StyleSheet, Text, View } from 'react-native'
+import CarouselImages from '../../components/CarouselImages'
 
 import Loading from '../../components/Loading'
 import { getDocumentById } from '../../utils/actions'
+
+const widthScreen = Dimensions.get("window").width
 
 export default function Product({ navigation, route }) {
     const { id, nameProduct } = route.params
@@ -26,10 +29,19 @@ export default function Product({ navigation, route }) {
         return <Loading isVisible={true} text="Cargando..."/>
     }
     return (
-        <View>
+        <ScrollView style={styles.viewBody}>
+            <CarouselImages
+                images={product.images}
+                height={250}
+                width={widthScreen}
+            />
             <Text>{product.description}</Text>
-        </View>
+        </ScrollView>
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    viewBody: {
+        flex: 1
+    }
+})
