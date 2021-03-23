@@ -42,7 +42,7 @@ function Product({ product, navigation, handleLoadMore }){
                     <Text style={styles.productName}>{nameProduct}</Text>
                     <Text style={styles.restaurantInformation}>{nameRestaurant}</Text>
                     <Text style={styles.restaurantInformation}>{address}</Text>
-                    <Text style={styles.restaurantInformation}>S/.{price}</Text>
+                    <Text style={styles.price}>S/.{price}.00</Text>
                     {/* <Text style={styles.productDescription}>
                         {
                             size(description) > 0
@@ -66,7 +66,9 @@ const styles = StyleSheet.create({
         alignSelf: "center"
     },
     viewText: {
-        flex: 1
+        flex: 1,
+        borderBottomColor: "#721c1c",
+        borderBottomWidth: 1
     },
     imageRestaurant: {
         width: 90,
@@ -83,5 +85,10 @@ const styles = StyleSheet.create({
         paddingTop: 2,
         color: "grey",
         width: "75%"
+    },
+    price: {
+        paddingTop: 2,
+        color: "grey",
+        paddingBottom: 5
     }
 })
