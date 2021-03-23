@@ -23,8 +23,12 @@ function Product({ product, navigation, handleLoadMore }){
     const { id, images, nameProduct, nameRestaurant, address, price } = product.item
     const imageRestaurant = images[0]
 
+    const goProduct = () => {
+        navigation.navigate("product", { id, nameProduct })
+    }
+
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={goProduct}>
             <View style ={styles.viewProduct}>
                 <View style={styles.viewProductImage}>
                 <Image
@@ -58,7 +62,8 @@ const styles = StyleSheet.create({
         margin: 10
     },
     viewProductImage: {
-        marginRight: 15
+        marginRight: 15,
+        alignSelf: "center"
     },
     viewText: {
         flex: 1
