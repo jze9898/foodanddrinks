@@ -10,6 +10,7 @@ const widthScreen = Dimensions.get("window").width
 export default function Product({ navigation, route }) {
     const { id, nameProduct } = route.params
     const [product, setProduct] = useState(null)
+    const [activeSlide, setActiveSlide] = useState(0)
     
     navigation.setOptions({ title: nameProduct })
 
@@ -34,6 +35,8 @@ export default function Product({ navigation, route }) {
                 images={product.images}
                 height={250}
                 width={widthScreen}
+                activeSlide={activeSlide}
+                setActiveSlide={setActiveSlide}
             />
             <Text>{product.description}</Text>
         </ScrollView>
