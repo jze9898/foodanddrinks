@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ScrollView, Alert, Dimensions, StyleSheet, Text, View } from 'react-native'
+import { Rating } from 'react-native-elements'
 import CarouselImages from '../../components/CarouselImages'
 
 import Loading from '../../components/Loading'
@@ -38,13 +39,61 @@ export default function Product({ navigation, route }) {
                 activeSlide={activeSlide}
                 setActiveSlide={setActiveSlide}
             />
-            <Text>{product.description}</Text>
+            <TitleProduct
+                nameProduct={product.nameProduct}
+                nameRestaurant={product.nameRestaurant}
+                description={product.description}
+                rating={product.rating}
+            />
         </ScrollView>
+    )
+}
+
+function TitleProduct({ nameProduct, nameRestaurant, description, rating }){
+    return(
+        <View style={styles.viewProductTtitle}>
+            <View style={styles.viewProductContainer}>
+                <Text style={styles.nameProduct}>{nameProduct}</Text>
+                <Rating
+                    style={styles.rating}
+                    imageSize={20}
+                    readonly
+                    startingValue={parseFloat(rating)}
+                /> 
+            </View>
+            <Text style={styles.descriptionRest}>{nameRestaurant}</Text>
+            <Text style={styles.descriptionProduct}>{description}</Text>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     viewBody: {
-        flex: 1
+        flex: 1,
+        backgroundColor: "#fff"
+    },
+    viewProductTtitle: {
+        padding: 15
+    },
+    viewProductContainer: {
+        flexDirection: "row"
+    },
+    descriptionRest: {
+        marginTop: 4,
+        color: "black",
+        textAlign: "justify"
+    },
+    descriptionProduct: {
+        marginTop: 4,
+        color: "gray",
+        textAlign: "justify"
+    },
+    rating: {
+        position: "absolute",
+        right: 0
+    },
+    nameProduct: {
+        fontWeight: "bold",
+        marginRight: 85
     }
 })
