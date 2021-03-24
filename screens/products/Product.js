@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { ScrollView, Alert, Dimensions, StyleSheet, Text, View } from 'react-native'
 import { Icon, ListItem, Rating } from 'react-native-elements'
 import { map } from 'lodash'
+import { useFocusEffect } from '@react-navigation/native'
 
 import CarouselImages from '../../components/CarouselImages'
 import Loading from '../../components/Loading'
@@ -19,17 +20,19 @@ export default function Product({ navigation, route }) {
     
     navigation.setOptions({ title: nameProduct })
 
-    useEffect(() => {
-        (async() => {
-            const response = await getDocumentById("products", id)
-            if (response.statusResponse) {
-                setProduct(response.document)
-            } else {
-                setProduct({})
-                Alert.alert("Ocurrio un problema cargando la opcion escogida.")
-            }
-        })()
-    }, [])
+    useFocusEffect(
+        useCallback(() => {
+            (async() => {
+                const response = await getDocumentById("products", id)
+                if (response.statusResponse) {
+                    setProduct(response.document)
+                } else {
+                    setProduct({})
+                    Alert.alert("Ocurrio un problema cargando la opcion escogida.")
+                }
+            })()
+        }, [])
+    )
 
     if (!product){
         return <Loading isVisible={true} text="Cargando..."/>
