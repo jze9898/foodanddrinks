@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import firebase from 'firebase/app'
 import { Button } from 'react-native-elements'
 
-export default function ListReviews({ navigation, idProducto }) {
+export default function ListReviews({ navigation, idProduct }) {
     const [userLogged, setUserLogged] = useState(false)
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -17,6 +17,7 @@ export default function ListReviews({ navigation, idProducto }) {
                         buttonStyle={styles.btnAddReview}
                         title="Escribe una opinion."
                         titleStyle={styles.btnTitleAddReview}
+                        onPress={() => navigation.navigate("add-review-product", { idProduct })}
                         icon={{
                             type: "material-community",
                             name: "square-edit-outline",

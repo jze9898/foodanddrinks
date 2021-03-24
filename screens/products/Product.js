@@ -61,7 +61,7 @@ export default function Product({ navigation, route }) {
             />
             <ListReviews
                 navigation={navigation}
-                idProducto={product.id}
+                idProduct={product.id}
             />
         </ScrollView>
     )
