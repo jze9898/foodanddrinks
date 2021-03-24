@@ -31,6 +31,7 @@ export default function AddReviewProduct({ navigation, route }) {
             avatarUser: user.photoURL,
             idProduct,
             title,
+            review,
             rating,
             createAt: new Date()
         }
