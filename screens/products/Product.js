@@ -8,6 +8,7 @@ import Loading from '../../components/Loading'
 import MapRestaurant from '../../components/products/MapRestaurant'
 import { getDocumentById } from '../../utils/actions'
 import { formatPhone } from '../../utils/helpers'
+import ListReviews from '../../components/products/ListReviews'
 
 const widthScreen = Dimensions.get("window").width
 
@@ -57,6 +58,10 @@ export default function Product({ navigation, route }) {
                 typeAttention={product.typeAttention}
                 price={product.price}
                 phone={formatPhone(product.callingCode, product.phone)}
+            />
+            <ListReviews
+                navigation={navigation}
+                idProducto={product.id}
             />
         </ScrollView>
     )
