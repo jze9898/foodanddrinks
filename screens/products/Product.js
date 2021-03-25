@@ -1,13 +1,15 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { ScrollView, Alert, Dimensions, StyleSheet, Text, View } from 'react-native'
 import { Icon, ListItem, Rating } from 'react-native-elements'
 import { map } from 'lodash'
 import { useFocusEffect } from '@react-navigation/native'
+import firebase from 'firebase/app'
+import Toast from 'react-native-easy-toast'
 
 import CarouselImages from '../../components/CarouselImages'
 import Loading from '../../components/Loading'
 import MapRestaurant from '../../components/products/MapRestaurant'
-import { getDocumentById } from '../../utils/actions'
+import { addDocumentWithoutId, getCurrentUser, getDocumentById, getIsFavorite } from '../../utils/actions'
 import { formatPhone } from '../../utils/helpers'
 import ListReviews from '../../components/products/ListReviews'
 
@@ -15,9 +17,18 @@ const widthScreen = Dimensions.get("window").width
 
 export default function Product({ navigation, route }) {
     const { id, nameProduct } = route.params
+    const toastRef = useRef()
+
     const [product, setProduct] = useState(null)
     const [activeSlide, setActiveSlide] = useState(0)
-    
+    const [isFavorite, setIsFavorite] = useState(false)
+    const [userLogged, setUserLogged] = useState(false)
+    const [loading, setLoading] = useState(false)
+
+    firebase.auth().onAuthStateChanged(user => {
+        user ? setUserLogged(true) : setUserLogged(false)
+    })
+
     navigation.setOptions({ title: nameProduct })
 
     useFocusEffect(
@@ -33,6 +44,37 @@ export default function Product({ navigation, route }) {
             })()
         }, [])
     )
+    useEffect(() => {
+        (async() => {
+            if(userLogged && product) {
+                const response = await getIsFavorite(product.id)
+                response.statusResponse && setIsFavorite(response.isFavorite)
+            }
+        })()
+    }, [userLogged, product])
+
+    const addFavorite = async() => {
+        if(!userLogged) {
+            toastRef.current.show("Para agregar el producto a Favoritos, debes estar logueado.", 3000)
+            return
+        }
+        setLoading(true)
+        const response = await addDocumentWithoutId("favorites", {
+            idUser: getCurrentUser().uid,
+            idProduct: product.id
+        })
+        setLoading(false)
+        if(response.statusResponse){
+            setIsFavorite(true)
+            toastRef.current.show("Producto añadido a Favoritos.", 3000)
+        } else {
+            toastRef.current.show("No se pudo adicionar el producto a Favoritos.", 3000)
+        }
+    }
+
+    const removeFavorite = () => {
+        console.log("sakjhdsakdsa")
+    }
 
     if (!product){
         return <Loading isVisible={true} text="Cargando..."/>
@@ -46,6 +88,16 @@ export default function Product({ navigation, route }) {
                 activeSlide={activeSlide}
                 setActiveSlide={setActiveSlide}
             />
+            <View style={styles.viewFavorites}>
+                <Icon
+                    type="material-community"
+                    name={ isFavorite ? "heart" : "heart-outline" }
+                    onPress={ isFavorite ? removeFavorite : addFavorite }
+                    color="#721c1c"
+                    size={35}
+                    underlayColor="transparent"
+                />
+            </View>
             <TitleProduct
                 nameProduct={product.nameProduct}
                 nameRestaurant={product.nameRestaurant}
@@ -66,6 +118,8 @@ export default function Product({ navigation, route }) {
                 navigation={navigation}
                 idProduct={product.id}
             />
+            <Toast ref={toastRef} position="center" opacity={0.9}/>
+            <Loading isVisible={loading} text="Por favor, espere..."/>
         </ScrollView>
     )
 }
@@ -171,5 +225,14 @@ const styles = StyleSheet.create({
     containerListItem: {
         borderBottomColor: "#721c1c",
         borderBottomWidth: 1
+    },
+    viewFavorites: {
+        position: "absolute",
+        top: 0,
+        right: 0,
+        backgroundColor: "#fff",
+        borderBottomLeftRadius: 25,
+        padding: 5,
+        paddingLeft: 10
     }
 })
