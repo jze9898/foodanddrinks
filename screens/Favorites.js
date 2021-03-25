@@ -79,8 +79,30 @@ export default function Favorites({ navigation }) {
 function Product({ product, setLoading, toastRef, navigation }) {
     const { id, nameProduct, images } = product.item
     return (
-        <View>
-            <Text>{nameProduct}</Text>
+        <View style ={styles.product}>
+            <TouchableOpacity
+                onPress={() => navigation.navigate("products", {
+                    screen: "product",
+                    params: { id }
+                })}
+            >
+                <Image
+                    resizeMode="cover"
+                    style={styles.image}
+                    PlaceholderContent={<ActivityIndicator color="#fff"/>}
+                    source={{ uri: images[0] }}
+                />
+                <View style={styles.info}>
+                    <Text style={styles.name}>{nameProduct}</Text>
+                    <Icon 
+                        type="material-community"
+                        name="heart"
+                        color="#f00"
+                        containerStyle={styles.favorite}
+                        underlayColor="transparent"
+                    />
+                </View>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -131,6 +153,36 @@ const styles = StyleSheet.create({
     },
     loaderProduct: {
         marginVertical: 10
+    },
+    product: {
+        margin: 10
+    },
+    image: {
+        width: "100%",
+        height: 100
+    },
+    info: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexDirection: "row",
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        marginTop: -30,
+        backgroundColor: "#FFF"
+    },
+    name: {
+        fontWeight: "bold",
+        fontSize: 20
+    },
+    favorite: {
+        marginTop: -35,
+        backgroundColor: "#eeeee4",
+        padding: 15,
+        position: "absolute",
+        bottom: 13,
+        right: 9,
+        borderRadius: 100,
+        borderColor: "#721c1c"
     }
-
 })
