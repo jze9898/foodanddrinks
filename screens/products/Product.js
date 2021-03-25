@@ -9,7 +9,7 @@ import Toast from 'react-native-easy-toast'
 import CarouselImages from '../../components/CarouselImages'
 import Loading from '../../components/Loading'
 import MapRestaurant from '../../components/products/MapRestaurant'
-import { addDocumentWithoutId, getCurrentUser, getDocumentById, getIsFavorite } from '../../utils/actions'
+import { addDocumentWithoutId, getCurrentUser, getDocumentById, getIsFavorite, deleteFavorite } from '../../utils/actions'
 import { formatPhone } from '../../utils/helpers'
 import ListReviews from '../../components/products/ListReviews'
 
@@ -72,8 +72,17 @@ export default function Product({ navigation, route }) {
         }
     }
 
-    const removeFavorite = () => {
-        console.log("sakjhdsakdsa")
+    const removeFavorite = async() => {
+        setLoading(true)
+        const response = await deleteFavorite(product.id)
+        setLoading(false)
+
+        if(response.statusResponse) {
+            setIsFavorite(false)
+            toastRef.current.show("Producto eliminado de Favoritos.", 3000)
+        } else {
+            toastRef.current.show("No se pudo eliminar el producto de Favoritos.", 3000)
+        }
     }
 
     if (!product){
