@@ -290,9 +290,9 @@ export const getTopRestaurants = async(limit) => {
 }
 
 export const searchProducts = async(criteria) => {
-    const result = { statusResponse: true, error: null, restaurants: [] }
+    const result = { statusResponse: true, error: null, products: [] }
     try {
-        result.restaurants = await fireSQL.query(`SELECT * FROM products WHERE nameProduct LIKE '${criteria}%'`)
+        result.products = await fireSQL.query(`SELECT * FROM products WHERE nameProduct LIKE '${criteria}%'`)
     } catch (error) {
         result.statusResponse = false
         result.error = error

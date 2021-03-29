@@ -126,8 +126,8 @@ export default function AddReviewProduct({ navigation, route }) {
                     onPress={addReview}
                 />
             </View>
-            <Toast ref={toastRef} position="top" opacity={0.9}/>
-            <Loading isVisible={loading} text="Enviando Comentario."/>
+            <Toast ref={toastRef} position="center" opacity={0.9}/>
+            <Loading isVisible={loading} text="Enviando Comentario..."/>
         </KeyboardAwareScrollView>
     )
 }
