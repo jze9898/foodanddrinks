@@ -1,12 +1,14 @@
 import { firebaseApp } from './firebase'
 import firebase from 'firebase'
 import 'firebase/firestore'
+import { FireSQL } from 'firesql'
 require('firebase/firestore')
 
 import { fileToBlob } from './helpers'
 import { map } from 'lodash'
 
 const db = firebase.firestore(firebaseApp)
+const fireSQL = new FireSQL(firebase.firestore(), { includeId: "id" })
 
 export const isUserLogged = () =>{
     let isLogged = false
@@ -251,28 +253,15 @@ export const getFavorites = async() => {
             .collection("favorites")
             .where("idUser", "==", getCurrentUser().uid)
             .get()
-        const productsId = []
-        response.forEach((doc) => {
-            const favorite = doc.data()
-            productsId.push(favorite.idProduct)
-        })
         await Promise.all(
-            map(productsId, async(productId) => {
-                const response2 = await getDocumentById("products", productId)
-                if (response2.statusResponse) {
-                    result.favorites.push(response2.document)
+            map(response.docs, async(doc) => {
+                const favorite = doc.data()
+                const product = await getDocumentById("products", favorite.idProduct)
+                if (product.statusResponse) {
+                    result.favorites.push(product.document)
                 }
             })
         )
-        // await Promise.all(
-        //     map(response.docs, async(doc) => {
-        //         const favorite = doc.data()
-        //         const product = await getDocumentById("products", favorite.idProduct)
-        //         if (restaurant.statusResponse) {
-        //             result.favorites.push(product.document)
-        //         }
-        //     })
-        // )
     } catch (error) {
         result.statusResponse = false
         result.error = error
@@ -293,6 +282,17 @@ export const getTopRestaurants = async(limit) => {
             product.id = doc.id
             result.products.push(product)
         })
+    } catch (error) {
+        result.statusResponse = false
+        result.error = error
+    }
+    return result     
+}
+
+export const searchProducts = async(criteria) => {
+    const result = { statusResponse: true, error: null, restaurants: [] }
+    try {
+        result.restaurants = await fireSQL.query(`SELECT * FROM products WHERE nameProduct LIKE '${criteria}%'`)
     } catch (error) {
         result.statusResponse = false
         result.error = error
