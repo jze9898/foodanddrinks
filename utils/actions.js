@@ -279,3 +279,23 @@ export const getFavorites = async() => {
     }
     return result     
 }
+
+export const getTopRestaurants = async(limit) => {
+    const result = { statusResponse: true, error: null, products: [] }
+    try {
+        const response = await db
+            .collection("products")
+            .orderBy("rating", "desc")
+            .limit(limit)
+            .get()
+        response.forEach((doc) => {
+            const product = doc.data()
+            product.id = doc.id
+            result.products.push(product)
+        })
+    } catch (error) {
+        result.statusResponse = false
+        result.error = error
+    }
+    return result     
+}
