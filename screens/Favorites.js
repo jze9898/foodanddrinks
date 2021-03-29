@@ -5,7 +5,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import Toast from 'react-native-easy-toast'
 import firebase from 'firebase/app'
 
-import { getFavorites } from '../utils/actions'
+import { deleteFavorite, getFavorites } from '../utils/actions'
 import Loading from '../components/Loading'
 
 export default function Favorites({ navigation }) {
@@ -57,7 +57,7 @@ export default function Favorites({ navigation }) {
                                 setLoading={setLoading}
                                 toastRef={toastRef}
                                 navigation={navigation}
-                                //setReloadData={setReloadData}
+                                setReloadData={setReloadData}
                             />
                         )}
                     />
@@ -76,14 +76,45 @@ export default function Favorites({ navigation }) {
     )
 }
 
-function Product({ product, setLoading, toastRef, navigation }) {
+function Product({ product, setLoading, toastRef, navigation, setReloadData }) {
     const { id, nameProduct, images } = product.item
+    
+    const confirmRemoveFavorite = () => {
+        Alert.alert(
+            "Eliminar producto de favoritos",
+            "¿Estas seguro de querer borrar el producto de favoritos?",
+            [
+                {
+                    text: "No",
+                    style: "cancel"
+                },
+                {
+                    text: "Si",
+                    onPress: removeFavorite
+                }
+            ],
+            { cancelable: false }
+        )
+    }
+
+    const removeFavorite = async() => {
+        setLoading(true)
+        const response = await deleteFavorite(id)
+        setLoading(false)
+        if (response.statusResponse) {
+            setReloadData(true)
+            toastRef.current.show("Producto eliminado de Favoritos.", 3000)
+        } else {
+            toastRef.current.show("Error al eliminar el producto de Favoritos.", 3000)
+        }
+    }
+
     return (
         <View style ={styles.product}>
             <TouchableOpacity
                 onPress={() => navigation.navigate("products", {
                     screen: "product",
-                    params: { id }
+                    params: { id, nameProduct }
                 })}
             >
                 <Image
@@ -100,6 +131,7 @@ function Product({ product, setLoading, toastRef, navigation }) {
                         color="#f00"
                         containerStyle={styles.favorite}
                         underlayColor="transparent"
+                        onPress={confirmRemoveFavorite}
                     />
                 </View>
             </TouchableOpacity>
