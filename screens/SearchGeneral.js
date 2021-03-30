@@ -1,0 +1,90 @@
+import React from 'react'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { Icon } from 'react-native-elements'
+import { useNavigation } from '@react-navigation/native'
+
+export default function SearchGeneral() {
+    const navigation = useNavigation()
+
+    return (
+        <ScrollView style={styles.body}>
+            <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Para poder ayudarte con la busqueda de tu Comida/Bebida
+                ideal, tenemos estas opciones para ti:
+            </Text>
+            <View style={styles.row}>
+            <Icon
+                    type="material-icons"
+                    name="menu-book"
+                    size={70}
+                    color= "#721c1c"
+                    onPress={() => navigation.navigate("search")}
+                />
+                <Text 
+                    style={styles.txt1}
+                    onPress={() => navigation.navigate("search")}
+                >
+                    Nombre del Producto  
+                </Text>
+                
+            </View>
+            <View style={styles.row}>
+                <Icon
+                    type="material-icons"
+                    name="food-bank"
+                    size={70}
+                    color= "#721c1c"
+                />
+                <Text style={styles.txt1}>Nombre del Restaurante</Text>
+            </View>
+            <View style={styles.row}>
+                <Icon
+                    type="material-icons"
+                    name="brunch-dining"
+                    size={68}
+                    color= "#721c1c"
+                />
+                <Text style={styles.txt1}>Tipo de Comida/Bebida/Insumo</Text>
+            </View>
+            <View style={styles.row}>
+                <Icon
+                    type="material-icons"
+                    name="delivery-dining"
+                    size={70}
+                    color= "#721c1c"
+                />
+                <Text style={styles.txt1}>Tipo de Atencion</Text>
+            </View>
+            <View style={styles.row}>
+                <Icon
+                    type="material-icons"
+                    name="local-atm"
+                    size={70}
+                    color= "#721c1c"
+                />
+                <Text style={styles.txt1}>Precio</Text>
+            </View>
+        </ScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    body: {
+        padding: 15,
+        
+        flexDirection:'column'
+    },
+    images: {
+        width: 75,
+        height: 75,
+    },
+    row: {
+        padding: 10,
+        flexDirection: 'row',
+        borderColor: "#721c1c",
+        borderBottomWidth: 1,
+    },
+    txt1: {
+        marginLeft: 10,
+        alignSelf: 'center'
+    }
+})
