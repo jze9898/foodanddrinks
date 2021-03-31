@@ -10,12 +10,6 @@ const Stack = createStackNavigator()
 export default function SearchStack() {
     return (
         <Stack.Navigator>
-            
-            {/* <Stack.Screen
-                name="search-restaurant"
-                component={SearchRestaurant}
-                options={{ title: "Encuentra tu restaurante" }}
-            /> */}
             <Stack.Screen
                 name="search-general"
                 component={SearchGeneral}
@@ -25,6 +19,11 @@ export default function SearchStack() {
                 name="search"
                 component={Search}
                 options={{ title: "Encuentra tu comida/bebida ideal" }}
+            />
+            <Stack.Screen
+                name="search-restaurant"
+                component={SearchRestaurant}
+                options={{ title: "Encuentra tu restaurante ideal" }}
             />
         </Stack.Navigator>
     )

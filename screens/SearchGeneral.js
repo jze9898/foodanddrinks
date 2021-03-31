@@ -22,7 +22,7 @@ export default function SearchGeneral() {
                 <Text 
                     style={styles.txt1}
                     onPress={() => navigation.navigate("search")}
-                >
+                    >
                     Nombre del Producto  
                 </Text>
                 
@@ -33,8 +33,14 @@ export default function SearchGeneral() {
                     name="food-bank"
                     size={70}
                     color= "#721c1c"
+                    onPress={() => navigation.navigate("search-restaurant")}
                 />
-                <Text style={styles.txt1}>Nombre del Restaurante</Text>
+                <Text 
+                    style={styles.txt1}
+                    onPress={() => navigation.navigate("search-restaurant")}
+                    >
+                    Nombre del Restaurante
+                </Text>
             </View>
             <View style={styles.row}>
                 <Icon

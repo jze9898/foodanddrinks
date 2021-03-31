@@ -158,9 +158,9 @@ function RestaurantInfo({ nameProduct, typeProduct,
     const actionRight = (type) => {
         if(type == "phone") {
             if (currentUser) {
-                sendWhatsApp(`${callingCode}${phoneNoFormat}`, `Soy ${currentUser.displayName}, estoy interesado en sus servicios.`)
+                sendWhatsApp(`${callingCode}${phoneNoFormat}`, `Hola! Soy ${currentUser.displayName}, estoy interesado en sus servicios y/o productos.`)
             } else {
-                sendWhatsApp(phone, `Estoy interesado en sus servicios.`)
+                sendWhatsApp(phone, `Hola! Estoy interesado en sus servicios.`)
             }
         } 
     }
