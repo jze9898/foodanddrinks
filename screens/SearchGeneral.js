@@ -48,8 +48,14 @@ export default function SearchGeneral() {
                     name="brunch-dining"
                     size={68}
                     color= "#721c1c"
+                    onPress={() => navigation.navigate("search-font")}
                 />
-                <Text style={styles.txt1}>Tipo de Comida/Bebida/Insumo</Text>
+                <Text 
+                    style={styles.txt1}
+                    onPress={() => navigation.navigate("search-font")}
+                >
+                    Tipo de Comida/Bebida/Insumo
+                </Text>
             </View>
             <View style={styles.row}>
                 <Icon
@@ -57,8 +63,14 @@ export default function SearchGeneral() {
                     name="delivery-dining"
                     size={70}
                     color= "#721c1c"
+                    onPress={() => navigation.navigate("search-typeattention")}
                 />
-                <Text style={styles.txt1}>Tipo de Atencion</Text>
+                <Text 
+                    style={styles.txt1}
+                    onPress={() => navigation.navigate("search-typeattention")}
+                >
+                    Tipo de Atencion
+                </Text>
             </View>
             <View style={styles.row}>
                 <Icon
@@ -66,8 +78,14 @@ export default function SearchGeneral() {
                     name="local-atm"
                     size={70}
                     color= "#721c1c"
+                    onPress={() => navigation.navigate("search-price")}
                 />
-                <Text style={styles.txt1}>Precio</Text>
+                <Text 
+                    style={styles.txt1}
+                    onPress={() => navigation.navigate("search-price")}
+                >
+                    Precio
+                </Text>
             </View>
         </ScrollView>
     )

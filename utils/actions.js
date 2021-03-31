@@ -310,3 +310,25 @@ export const searchRestaurants = async(criteria) => {
     }
     return result     
 }
+
+export const searchFont = async(criteria) => {
+    const result = { statusResponse: true, error: null, products: [] }
+    try {
+        result.products = await fireSQL.query(`SELECT * FROM products WHERE font LIKE '${criteria}%'`)
+    } catch (error) {
+        result.statusResponse = false
+        result.error = error
+    }
+    return result     
+}
+
+export const searchTypeAttention = async(criteria) => {
+    const result = { statusResponse: true, error: null, products: [] }
+    try {
+        result.products = await fireSQL.query(`SELECT * FROM products WHERE typeAttention LIKE '${criteria}%'`)
+    } catch (error) {
+        result.statusResponse = false
+        result.error = error
+    }
+    return result     
+}
