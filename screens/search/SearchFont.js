@@ -216,7 +216,7 @@ export default function SearchFont({ navigation }) {
 
                     ) : (
                         <Text style={styles.notFound}>
-                            No hay restaurantes que coincidan con el criterio de busqueda.
+                            No hay productos que coincidan con el criterio de busqueda.
                         </Text>
                     )
                 )

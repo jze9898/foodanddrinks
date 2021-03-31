@@ -332,3 +332,14 @@ export const searchTypeAttention = async(criteria) => {
     }
     return result     
 }
+
+export const searchPrice = async(criteria) => {
+    const result = { statusResponse: true, error: null, products: [] }
+    try {
+        result.products = await fireSQL.query(`SELECT * FROM products WHERE price <= '${criteria}'`)
+    } catch (error) {
+        result.statusResponse = false
+        result.error = error
+    }
+    return result     
+}
