@@ -9,7 +9,7 @@ import Toast from 'react-native-easy-toast'
 import CarouselImages from '../../components/CarouselImages'
 import Loading from '../../components/Loading'
 import MapRestaurant from '../../components/products/MapRestaurant'
-import { addDocumentWithoutId, getCurrentUser, getDocumentById, getIsFavorite, deleteFavorite } from '../../utils/actions'
+import { addDocumentWithoutId, getCurrentUser, getDocumentById, getIsFavorite, deleteFavorite, setNotificationMessage, sendPushNotification } from '../../utils/actions'
 import { callNumber, formatPhone, sendWhatsApp } from '../../utils/helpers'
 import ListReviews from '../../components/products/ListReviews'
 
@@ -127,6 +127,7 @@ export default function Product({ navigation, route }) {
                 currentUser={currentUser}
                 callingCode ={product.callingCode}
                 phoneNoFormat={product.phone}
+                setLoading={setLoading}
             />
             <ListReviews
                 navigation={navigation}
@@ -139,9 +140,9 @@ export default function Product({ navigation, route }) {
 }
 
 function RestaurantInfo({ nameProduct, typeProduct, 
-    font, location, address, typeAttention, price, phone, currentUser, callingCode, phoneNoFormat }) {
+    font, location, address, typeAttention, price, phone, currentUser, callingCode, phoneNoFormat, setLoading }) {
     const listInfo = [
-        {type:"address", text: address, iconLeft: "map-marker"},
+        {type:"address", text: address, iconLeft: "map-marker", iconRight: "message-text-outline"},
         {type:"phone", text: phone, iconLeft: "phone", iconRight: "whatsapp"},
         {type:"typeProduct", text: typeProduct, iconLeft: "store"},
         {type:"font", text: font, iconLeft: "food-variant"},
@@ -161,8 +162,36 @@ function RestaurantInfo({ nameProduct, typeProduct,
                 sendWhatsApp(`${callingCode}${phoneNoFormat}`, `Hola! Soy ${currentUser.displayName}, estoy interesado en sus servicios y/o productos.`)
             } else {
                 sendWhatsApp(phone, `Hola! Estoy interesado en sus servicios.`)
-            }
+            } 
+        } else if (type == "address"){
+            sendNotification()
         } 
+    }
+
+    const sendNotification = async() => {
+        setLoading(true)
+        const resultToken = await getDocumentById("users", getCurrentUser().uid)
+        if (!resultToken.statusResponse) {
+            Alert.alert("No se pudo obtener el token del usuario.")
+            setLoading(false)
+            return
+        }
+
+        const messageNotification = setNotificationMessage(
+            resultToken.document.token,
+            `Titulo de prueba`,
+            `Mensaje de prueba`,
+            { data: `Data de prueba` } 
+        )
+
+        const response = await sendPushNotification(messageNotification)
+        setLoading(false)
+
+        if (response) {
+            Alert.alert("Se ha enviado el mensaje.")
+        } else {
+            Alert.alert("No se pudo enviar el mensaje.")
+        }
     }
 
     return (
