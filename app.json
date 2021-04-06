@@ -18,10 +18,17 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.cuscofoodandrinks"
+      "bundleIdentifier": "com.cuscofoodandrinks",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.617202629765-qu4g8l1r22l2mi8ml7q31nr2v53bba6f"
+        }
+      },
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "package": "com.cuscofoodandrinks",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
