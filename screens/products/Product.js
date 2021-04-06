@@ -1,15 +1,16 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { ScrollView, Alert, Dimensions, StyleSheet, Text, View } from 'react-native'
-import { Icon, ListItem, Rating } from 'react-native-elements'
-import { map } from 'lodash'
+import { Button, Icon, Input, ListItem, Rating } from 'react-native-elements'
+import { isEmpty, map } from 'lodash'
 import { useFocusEffect } from '@react-navigation/native'
 import firebase from 'firebase/app'
 import Toast from 'react-native-easy-toast'
 
 import CarouselImages from '../../components/CarouselImages'
 import Loading from '../../components/Loading'
+import Modal from '../../components/Modal'
 import MapRestaurant from '../../components/products/MapRestaurant'
-import { addDocumentWithoutId, getCurrentUser, getDocumentById, getIsFavorite, deleteFavorite, setNotificationMessage, sendPushNotification } from '../../utils/actions'
+import { addDocumentWithoutId, getCurrentUser, getDocumentById, getIsFavorite, deleteFavorite, setNotificationMessage, sendPushNotification, getUsersFavorite } from '../../utils/actions'
 import { callNumber, formatPhone, sendWhatsApp } from '../../utils/helpers'
 import ListReviews from '../../components/products/ListReviews'
 
@@ -25,6 +26,7 @@ export default function Product({ navigation, route }) {
     const [userLogged, setUserLogged] = useState(false)
     const [loading, setLoading] = useState(false)
     const [currentUser, setCurrentUser] = useState(null)
+    const [modalNotification, setModalNotification] = useState(false)
 
     firebase.auth().onAuthStateChanged(user => {
         user ? setUserLogged(true) : setUserLogged(false)
@@ -128,10 +130,17 @@ export default function Product({ navigation, route }) {
                 callingCode ={product.callingCode}
                 phoneNoFormat={product.phone}
                 setLoading={setLoading}
+                setModalNotification={setModalNotification}
             />
             <ListReviews
                 navigation={navigation}
                 idProduct={product.id}
+            />
+            <SendMessage
+                modalNotification={modalNotification}
+                setModalNotification={setModalNotification}
+                setLoading={setLoading}
+                product={product}
             />
             <Toast ref={toastRef} position="center" opacity={0.9}/>
             <Loading isVisible={loading} text="Por favor, espere..."/>
@@ -139,8 +148,99 @@ export default function Product({ navigation, route }) {
     )
 }
 
+function SendMessage({ modalNotification, setModalNotification, setLoading, product }){
+    const [title, setTitle] = useState(null)
+    const [errorTitle, setErrorTitle] = useState(null)
+    const [message, setMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
+
+    const sendNotification = async() => {
+        if(!validForm()) {
+            return
+        }
+
+        setLoading(true)
+        const userName = getCurrentUser().displayName ? getCurrentUser().displayName : "Anonimo"
+        const theMessage = `${message}, del producto: ${product.nameProduct}`
+
+        const usersFavorite = await getUsersFavorite(product.id)
+        if(!usersFavorite.statusResponse) {
+            setLoading(false)
+            Alert.alert("Error al obtener lo usuarios que prefieren el producto.")
+            return
+        }
+
+        await Promise.all (
+            map(usersFavorite.users, async(user) => {
+                const messageNotification = setNotificationMessage(
+                    user.token,
+                    `${userName}, dijo ${title}`,
+                    theMessage,
+                    { data: theMessage } 
+                )
+        
+                await sendPushNotification(messageNotification)
+            })
+        )
+
+        setLoading(false)
+        setTitle(null)
+        setMessage(null)
+        setModalNotification(false)
+    }
+
+    const validForm = () => {
+        let isValid = true
+
+        if(isEmpty(title)){
+            setErrorTitle("Debes ingresar un titulo a tu mensaje.")
+            isValid=false
+        }
+
+        if(isEmpty(message)){
+            setErrorMessage("Debes ingresar un mensaje.")
+            isValid=false
+        }
+        return isValid
+    }
+    
+    return (
+        <Modal
+            isVisible={modalNotification}
+            setVisible={setModalNotification}
+        >
+            <View style={styles.modalContainer}>
+                <Text style={styles.textModal}>
+                    Enviale un mensaje a los amantes de {product.nameProduct}
+                </Text>
+                <Input
+                    placeholder="Titulo del mensaje..."
+                    onChangeText={(text) => setTitle(text)}
+                    value={title}
+                    errorMessage={errorTitle}
+                />
+                <Input
+                    placeholder="Mensaje..."
+                    multiline
+                    inputStyle={styles.textArea}
+                    onChangeText={(text) => setMessage(text)}
+                    value={message}
+                    errorMessage={errorMessage}
+                />
+                <Button
+                    title="Enviar Mensaje"
+                    buttonStyle={styles.btnSend}
+                    containerStyle={styles.btnSendContainer}
+                    onPress={sendNotification}
+                />
+            </View>
+        </Modal>
+    )
+}
+
 function RestaurantInfo({ nameProduct, typeProduct, 
-    font, location, address, typeAttention, price, phone, currentUser, callingCode, phoneNoFormat, setLoading }) {
+    font, location, address, typeAttention, price, phone, currentUser, callingCode, phoneNoFormat, 
+    setModalNotification }) {
     const listInfo = [
         {type:"address", text: address, iconLeft: "map-marker", iconRight: "message-text-outline"},
         {type:"phone", text: phone, iconLeft: "phone", iconRight: "whatsapp"},
@@ -164,34 +264,8 @@ function RestaurantInfo({ nameProduct, typeProduct,
                 sendWhatsApp(phone, `Hola! Estoy interesado en sus servicios.`)
             } 
         } else if (type == "address"){
-            sendNotification()
+            setModalNotification(true)
         } 
-    }
-
-    const sendNotification = async() => {
-        setLoading(true)
-        const resultToken = await getDocumentById("users", getCurrentUser().uid)
-        if (!resultToken.statusResponse) {
-            Alert.alert("No se pudo obtener el token del usuario.")
-            setLoading(false)
-            return
-        }
-
-        const messageNotification = setNotificationMessage(
-            resultToken.document.token,
-            `Titulo de prueba`,
-            `Mensaje de prueba`,
-            { data: `Data de prueba` } 
-        )
-
-        const response = await sendPushNotification(messageNotification)
-        setLoading(false)
-
-        if (response) {
-            Alert.alert("Se ha enviado el mensaje.")
-        } else {
-            Alert.alert("No se pudo enviar el mensaje.")
-        }
     }
 
     return (
@@ -305,5 +379,25 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 25,
         padding: 5,
         paddingLeft: 10
+    },
+    textArea: {
+        height: 50,
+        paddingHorizontal: 10
+    },
+    btnSend: {
+        backgroundColor: "#442848"
+    },
+    btnSendContainer: {
+        width: "95%"
+    },
+    textModal: {
+        color: "#000",
+        fontSize: 16,
+        fontWeight: "bold",
+        paddingBottom: 7
+    },
+    modalContainer: {
+        justifyContent: "center",
+        alignItems: "center"
     }
 })
