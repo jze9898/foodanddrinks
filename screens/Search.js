@@ -47,23 +47,6 @@ export default function Search({ navigation }) {
                     isEmpty(search) ? (
                         <Text style={styles.notFound}>
                             Ingrese las primeras letras del nombre del producto.{"\n"}
-                            
-                            <Icon
-                            type="material-community"
-                            name="car"
-                            style={{ paddingRight: 10, paddingTop: 15}}
-                            />
-                            <Text style={styles.notFound}>
-                            Delivery{"\n"}
-                        </Text>
-                        <Icon
-                            type="material-community"
-                            name="heart"
-                            style={{ paddingRight: 10, paddingTop: 15}}
-                            />
-                            <Text style={styles.notFound}>
-                            Consumo en local{"\n"}
-                        </Text>
                         </Text>
 
                     ) : (
