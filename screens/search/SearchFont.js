@@ -54,7 +54,7 @@ export default function SearchFont({ navigation }) {
                                 type="font-awesome-5"
                                 name="bahai"
                                 size={20}
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -65,7 +65,7 @@ export default function SearchFont({ navigation }) {
                                 type="font-awesome-5"
                                 name="fish"
                                 size={20}
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -76,7 +76,7 @@ export default function SearchFont({ navigation }) {
                                 type="font-awesome-5"
                                 name="hamburger"
                                 size={20}
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -87,7 +87,7 @@ export default function SearchFont({ navigation }) {
                                 type="font-awesome-5"
                                 name="drumstick-bite"
                                 size={20}
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -98,7 +98,7 @@ export default function SearchFont({ navigation }) {
                                  type="font-awesome-5"
                                  name="hotdog"
                                  size={20}
-                                 color= "#721c1c"
+                                 color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -109,7 +109,7 @@ export default function SearchFont({ navigation }) {
                                  type="font-awesome-5"
                                  name="carrot"
                                  size={20}
-                                 color= "#721c1c"
+                                 color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -120,7 +120,7 @@ export default function SearchFont({ navigation }) {
                                  type="font-awesome-5"
                                  name="mitten"
                                  size={20}
-                                 color= "#721c1c"
+                                 color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -130,7 +130,7 @@ export default function SearchFont({ navigation }) {
                             <Icon
                                 type="material-community"
                                 name="food"
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -141,7 +141,7 @@ export default function SearchFont({ navigation }) {
                                 type="font-awesome-5"
                                 name="pizza-slice"
                                 size={20}
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -151,7 +151,7 @@ export default function SearchFont({ navigation }) {
                             <Icon
                                 type="material-community"
                                 name="noodles"
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -162,7 +162,7 @@ export default function SearchFont({ navigation }) {
                                 type="font-awesome-5"
                                 name="coffee"
                                 size={20}
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -173,7 +173,7 @@ export default function SearchFont({ navigation }) {
                                 type="font-awesome-5"
                                 name="blender"
                                 size={20}
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -183,7 +183,7 @@ export default function SearchFont({ navigation }) {
                             <Icon
                                type="font-awesome-5"
                                name="beer"
-                               color= "#721c1c"
+                               color= "#ff2020"
                                size={20}
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
@@ -194,7 +194,7 @@ export default function SearchFont({ navigation }) {
                             <Icon
                                 type="material-community"
                                 name="food-croissant"
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -204,7 +204,7 @@ export default function SearchFont({ navigation }) {
                             <Icon
                                 type="font-awesome-5"
                                 name="cookie"
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 size={20}
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />

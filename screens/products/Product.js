@@ -106,7 +106,7 @@ export default function Product({ navigation, route }) {
                     type="material-community"
                     name={ isFavorite ? "heart" : "heart-outline" }
                     onPress={ isFavorite ? removeFavorite : addFavorite }
-                    color="#721c1c"
+                    color="#ff2020"
                     size={35}
                     underlayColor="transparent"
                 />
@@ -287,7 +287,7 @@ function RestaurantInfo({ nameProduct, typeProduct,
                         <Icon
                             type="material-community"
                             name={item.iconLeft}
-                            color="#721c1c"
+                            color="#ff2020"
                             onPress={() => actionLeft(item.type)}
                         />
                         <ListItem.Content>
@@ -298,7 +298,7 @@ function RestaurantInfo({ nameProduct, typeProduct,
                                 <Icon
                                     type="material-community"
                                     name={item.iconRight}
-                                    color="#721c1c"
+                                    color="#ff2020"
                                     onPress={() => actionRight(item.type)}
                                 />
                             )
@@ -368,7 +368,7 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     containerListItem: {
-        borderBottomColor: "#721c1c",
+        borderBottomColor: "#ff2020",
         borderBottomWidth: 1
     },
     viewFavorites: {

@@ -16,7 +16,7 @@ export default function SearchGeneral() {
                     type="material-icons"
                     name="menu-book"
                     size={70}
-                    color= "#721c1c"
+                    color= "#ff2020"
                     onPress={() => navigation.navigate("search")}
                 />
                 <Text 
@@ -32,7 +32,7 @@ export default function SearchGeneral() {
                     type="material-icons"
                     name="food-bank"
                     size={70}
-                    color= "#721c1c"
+                    color= "#ff2020"
                     onPress={() => navigation.navigate("search-restaurant")}
                 />
                 <Text 
@@ -47,7 +47,7 @@ export default function SearchGeneral() {
                     type="material-icons"
                     name="brunch-dining"
                     size={68}
-                    color= "#721c1c"
+                    color= "#ff2020"
                     onPress={() => navigation.navigate("search-font")}
                 />
                 <Text 
@@ -62,7 +62,7 @@ export default function SearchGeneral() {
                     type="material-icons"
                     name="delivery-dining"
                     size={70}
-                    color= "#721c1c"
+                    color= "#ff2020"
                     onPress={() => navigation.navigate("search-typeattention")}
                 />
                 <Text 
@@ -77,7 +77,7 @@ export default function SearchGeneral() {
                     type="material-icons"
                     name="local-atm"
                     size={70}
-                    color= "#721c1c"
+                    color= "#ff2020"
                     onPress={() => navigation.navigate("search-price")}
                 />
                 <Text 
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     row: {
         padding: 10,
         flexDirection: 'row',
-        borderColor: "#721c1c",
+        borderColor: "#ff2020",
         borderBottomWidth: 1,
     },
     txt1: {

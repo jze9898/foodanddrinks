@@ -424,7 +424,7 @@ function FormAdd({ formData, setFormData, errorNameProduct, errorNameRestaurant,
                 rightIcon={{
                     type: "material-community",
                     name: "google-maps",
-                    color: locationRestaurant ? "#721c1c" : "#c2c2c2",
+                    color: locationRestaurant ? "#ff2020" : "#c2c2c2",
                     onPress: () => setIsVisibleMap(true)           }
                 }
                 
@@ -536,7 +536,7 @@ const styles = StyleSheet.create({
     },
     btnAddProduct: {
         margin: 20,
-        backgroundColor: "#721c1c"
+        backgroundColor: "#ff2020"
     },
     pickerClass: {
         width: "100%",
@@ -586,6 +586,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#442484"
     }, 
     viewMapBtnCancel: {
-        backgroundColor: "#721c1c"
+        backgroundColor: "#ff2020"
     }
 })

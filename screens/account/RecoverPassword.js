@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         alignSelf: "center"
     },
     btnRecover: {
-        backgroundColor: "#721c1c"
+        backgroundColor: "#ff2020"
     },
     icon: {
         color: "#c1c1c1"

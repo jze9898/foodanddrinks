@@ -53,7 +53,7 @@ export default function SearchTypeAttention({ navigation }) {
                                 type="font-awesome-5"
                                 name="car-side"
                                 size={20}
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -64,7 +64,7 @@ export default function SearchTypeAttention({ navigation }) {
                                 type="font-awesome-5"
                                 name="store-alt"
                                 size={20}
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>
@@ -75,7 +75,7 @@ export default function SearchTypeAttention({ navigation }) {
                                 type="font-awesome-5"
                                 name="people-arrows"
                                 size={20}
-                                color= "#721c1c"
+                                color= "#ff2020"
                                 style={{ paddingRight: 10, paddingTop: 15}}
                             />
                             <Text style={styles.notFound}>

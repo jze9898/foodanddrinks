@@ -171,7 +171,7 @@ function UserNoLogged({ navigation }){
             <Button
                 title="Ir al Login"
                 containerStyle={{ marginTop: 20, width: "80%" }}
-                buttonStyle={{ backgroundColor: "#721c1c" }}
+                buttonStyle={{ backgroundColor: "#ff2020" }}
                 onPress={() => navigation.navigate("account", { screen: "login" })}
             />
         </View>
@@ -215,6 +215,6 @@ const styles = StyleSheet.create({
         bottom: 13,
         right: 9,
         borderRadius: 100,
-        borderColor: "#721c1c"
+        borderColor: "#ff2020"
     }
 })

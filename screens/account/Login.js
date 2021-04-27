@@ -57,16 +57,16 @@ function CreateAccount(props){
 
 const styles = StyleSheet.create({
     image: {
-        height: 150,
+        height: 220,
         width: "100%",
-        marginBottom:20,
+        marginBottom: 1,
         marginTop: 15
     },
     container: {
         marginHorizontal: 40
     },
     divider: {
-        backgroundColor: "#721c1c",
+        backgroundColor: "#ff2020",
         margin: 30
     },
     register:{
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         alignSelf: "center"
     },
     btnRegister: {
-        color: "#721c1c",
+        color: "#ff2020",
         fontWeight: "bold"
     }
 })

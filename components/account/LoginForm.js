@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 30
+        marginTop: 10
     },
     input: {
         width: "100%"
@@ -199,9 +199,9 @@ const styles = StyleSheet.create({
         alignSelf: "center"
     },
     btn: {
-        backgroundColor: "#721c1c"
+        backgroundColor: "#ff2020"
     },
     btnGoogle: {
-        backgroundColor: "#EA4335"
+        backgroundColor: "#616467"
     }
 })

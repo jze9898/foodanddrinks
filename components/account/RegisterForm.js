@@ -135,7 +135,7 @@ const defaultFormValues = () => {
 
 const styles = StyleSheet.create({
     form: {
-        marginTop: 30
+        marginTop: 18
     },
     input: {
         width: "100%"
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         alignSelf: "center"
     },
     btn: {
-        backgroundColor: "#721c1c"
+        backgroundColor: "#ff2020"
     },
     icon: {
         color: "#c1c1c1"
