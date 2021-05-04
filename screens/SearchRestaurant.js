@@ -30,6 +30,8 @@ export default function SearchRestaurant({ navigation }) {
                 onChangeText={(e) => setSearch(e)}
                 containerStyle={styles.searchBar}
                 value={search}
+                leftIconContainerStyle={{backgroundColor: 'white'}}
+                inputContainerStyle={{backgroundColor: 'white'}}
             />
             {
                 size(restaurants) > 0 ? (
@@ -94,8 +96,16 @@ function Restaurant({ restaurant, navigation }) {
 
 const styles = StyleSheet.create({
     searchBar: {
-        marginBottom: 8,
-        backgroundColor: "#fff"
+        marginBottom: 9,
+        backgroundColor: "#fff",
+        width: '100%',
+        alignSelf:'center',
+        borderRadius: 5,
+        shadowColor: '#ccc',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        elevation: 15,
     },
     imageRestaurant: {
         width: 90,

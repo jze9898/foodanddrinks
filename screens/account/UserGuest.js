@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 30
     },
     image :{
-        height: 300,
+        height: 250,
         width: "100%",
         marginBottom: 1,
         marginTop: 10

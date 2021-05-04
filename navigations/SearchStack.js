@@ -7,6 +7,7 @@ import SearchGeneral from '../screens/SearchGeneral'
 import SearchFont from '../screens/search/SearchFont'
 import SearchTypeAttention from '../screens/search/SearchTypeAttention'
 import SearchPrice from '../screens/search/SearchPrice'
+import LocationNear from '../screens/search/LocationNear'
 
 const Stack = createStackNavigator()
 
@@ -42,6 +43,11 @@ export default function SearchStack() {
                 name="search-price"
                 component={SearchPrice}
                 options={{ title: "¡Que el hambre no te gane! Busca por precio" }}
+            />
+            <Stack.Screen
+                name="location-near"
+                component={LocationNear}
+                options={{ title: "¡Mira lo que tenemos, cerca de ti!" }}
             />
         </Stack.Navigator>
     )

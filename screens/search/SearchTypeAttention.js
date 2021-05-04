@@ -4,6 +4,11 @@ import { SearchBar, ListItem, Icon, Image } from 'react-native-elements'
 import { isEmpty, size } from 'lodash'
 
 import { searchTypeAttention } from '../../utils/actions'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export default function SearchTypeAttention({ navigation }) {
     const [search, setSearch] = useState("")
@@ -30,6 +35,8 @@ export default function SearchTypeAttention({ navigation }) {
                 onChangeText={(e) => setSearch(e)}
                 containerStyle={styles.searchBar}
                 value={search}
+                leftIconContainerStyle={{backgroundColor: 'white'}}
+                inputContainerStyle={{backgroundColor: 'white'}}
             />
             {
                 size(products) > 0 ? (
@@ -45,47 +52,36 @@ export default function SearchTypeAttention({ navigation }) {
                     />
                 ) : (
                     isEmpty(search) ? (
-                        <Text style={styles.notFound}>
-                            Debido a la situaciom que todos estamos viviendo, tenemos que cuidarnos, y podras buscar como deseas
-                            consumir tu comida/bebida. Cuando te decidas, ingresalo en la barra
-                            de busqueda.{"\n"}
-                            <Icon
-                                type="font-awesome-5"
-                                name="car-side"
-                                size={20}
-                                color= "#ff2020"
-                                style={{ paddingRight: 10, paddingTop: 15}}
-                            />
-                            <Text style={styles.notFound}>
-                                Delivery{"\n"}
-                            </Text>
-
-                            <Icon
-                                type="font-awesome-5"
-                                name="store-alt"
-                                size={20}
-                                color= "#ff2020"
-                                style={{ paddingRight: 10, paddingTop: 15}}
-                            />
-                            <Text style={styles.notFound}>
-                                Consumo en local{"\n"}
-                            </Text>
-
-                            <Icon
-                                type="font-awesome-5"
-                                name="people-arrows"
-                                size={20}
-                                color= "#ff2020"
-                                style={{ paddingRight: 10, paddingTop: 15}}
-                            />
-                            <Text style={styles.notFound}>
-                                Recojo en local{"\n"}
-                            </Text>
-                        </Text>
-
+                        <ScrollView style={styles.body}>
+                            <View style={styles.categoryContainer1}>
+                                <Text style={{ fontWeight: 'normal', textAlign: 'justify' }}>Debido a la situación que todos estamos viviendo, tenemos que cuidarnos, y podrás buscar como deseas
+                                    consumir tu comida/bebida. Cuando te decidas, ingrésalo en la barra de búsqueda.
+                                </Text>
+                            </View>
+                            <View style={styles.categoryContainer}>
+                                <View style={styles.categoryBtn}>
+                                    <View style={styles.categoryIcon}>
+                                        <FontAwesome5 name="car-side" size={25} color="#ff2020" />
+                                    </View>
+                                    <Text style={styles.categoryBtnTxt}>Delivery</Text>
+                                </View>
+                                <View style={styles.categoryBtn}>
+                                    <View style={styles.categoryIcon}>
+                                        <FontAwesome5 name="store-alt" size={25} color="#ff2020" />
+                                    </View>
+                                    <Text style={styles.categoryBtnTxt}>Consumo en local</Text>
+                                </View>
+                                <View style={styles.categoryBtn}>
+                                    <View style={styles.categoryIcon}>
+                                        <FontAwesome5 name="people-arrows" size={25} color="#ff2020" />
+                                    </View>
+                                    <Text style={styles.categoryBtnTxt}>Recojo en local</Text>
+                                </View>                          
+                            </View>
+                        </ScrollView>
                     ) : (
                         <Text style={styles.notFound}>
-                            No hay productos que coincidan con el criterio de busqueda.
+                            No hay productos que coincidan con el criterio de búsqueda.
                         </Text>
                     )
                 )
@@ -129,8 +125,16 @@ function Product({ product, navigation }) {
 
 const styles = StyleSheet.create({
     searchBar: {
-        marginBottom: 8,
-        backgroundColor: "#fff"
+        marginBottom: 2,
+        backgroundColor: "#fff",
+        width: '100%',
+        alignSelf:'center',
+        borderRadius: 5,
+        shadowColor: '#ccc',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        elevation: 15,
     },
     imageRestaurant: {
         width: 90,
@@ -143,5 +147,45 @@ const styles = StyleSheet.create({
     },
     menuItem: {
         margin: 10
-    }
+    },
+    categoryContainer1: {
+        flexDirection: 'row',
+        width: '96%',
+        alignSelf: 'center',
+        marginTop: 1,
+        marginBottom: 1,
+    },
+    body: {
+        padding: 15,
+        flexDirection:'column'
+    },
+    categoryIcon: {
+        borderWidth: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: 50,
+        height: 50,
+        backgroundColor: '#fdeae7' /* '#FF6347' */,
+        borderRadius: 50,
+    },
+    categoryContainer: {
+        flexDirection: 'row',
+        width: '90%',
+        alignSelf: 'center',
+        marginTop: 25,
+        marginBottom: 10,
+    },
+    categoryBtn: {
+        flex: 1,
+        width: '30%',
+        marginHorizontal: 0,
+        alignSelf: 'center',
+    },
+    categoryBtnTxt: {
+        alignSelf: 'center',
+        textAlign: 'center',
+        marginTop: 5,
+        color: "#ff2020",
+    },
 })
